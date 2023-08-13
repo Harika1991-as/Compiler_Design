@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define NUM_STATES 10
+#define NUM_SYMBOLS 6
+
+enum Symbol {
+    S, E, T, F, PLUS, STAR
+};
+
+enum ActionType {
+    SHIFT, REDUCE, ACCEPT, ERROR
+};
+
+struct Action {
+    enum ActionType type;
+    int value;
+};
+
+struct Action parsingTable[NUM_STATES][NUM_SYMBOLS];
+int gotoTable[NUM_STATES][NUM_SYMBOLS];
+
+void initializeParsingTable() {
+    // Initialize parsing table and goto table here
+    // This would involve specifying SHIFT, REDUCE, ACCEPT, and ERROR actions
+}
+
+bool parseInput(const char *input) {
+    // Parse the input using the parsing table and goto table
+}
+
+int main() {
+    initializeParsingTable();
+
+    const char *input = "id + id * id";
+    bool isParsed = parseInput(input);
+
+    if (isParsed) {
+        printf("Input parsed successfully.\n");
+    } else {
+        printf("Input couldn't be parsed.\n");
+    }
+
+    return 0;
+}
