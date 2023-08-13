@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+typedef struct Quadruple {
+    char op;    
+    int arg1;  
+    int arg2;  
+    int result; 
+} Quadruple;
+
+Quadruple generateQuadruple(char op, int arg1, int arg2, int result) {
+    Quadruple quad;
+    quad.op = op;
+    quad.arg1 = arg1;
+    quad.arg2 = arg2;
+    quad.result = result;
+    return quad;
+}
+
+int main() {
+    
+    Quadruple quad1 = generateQuadruple('*', 2, 3, 1); 
+    Quadruple quad2 = generateQuadruple('+', 1, 1, 2); 
+    Quadruple quad3 = generateQuadruple('-', 2, 4, 3); 
+
+    printf("Quadruples:\n");
+    printf("(%c, %d, %d, %d)\n", quad1.op, quad1.arg1, quad1.arg2, quad1.result);
+    printf("(%c, %d, %d, %d)\n", quad2.op, quad2.arg1, quad2.arg2, quad2.result);
+    printf("(%c, %d, %d, %d)\n", quad3.op, quad3.arg1, quad3.arg2, quad3.result);
+
+    return 0;
+}
