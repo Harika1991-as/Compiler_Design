@@ -1,0 +1,14 @@
+#include <stdio.h>
+
+int main() {
+    int a = 5;
+    int b = 10;
+    int temp = a + b * 2; // Calculate the common subexpression once
+    int c = temp;
+    int d = temp;
+    
+    printf("c = %d\n", c);
+    printf("d = %d\n", d);
+    
+    return 0;
+}
