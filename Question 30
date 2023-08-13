@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+#define NUM_PRODUCTIONS 3
+#define NUM_SYMBOLS 4
+
+enum Symbol {
+    E, PLUS, STAR, ID
+};
+
+int productionLength[NUM_PRODUCTIONS] = {3, 3, 1};
+int productions[NUM_PRODUCTIONS][3] = {
+    {E, PLUS, E},
+    {E, STAR, E},
+    {ID}
+};
+
+bool isAmbiguous = false;
+
+void checkAmbiguity(int derivation[], int length, int current) {
+    if (current == length) {
+        isAmbiguous = true;
+        return;
+    }
+
+    for (int i = 0; i < NUM_PRODUCTIONS; i++) {
+        if (productionLength[i] == length - current) {
+            bool matching = true;
+            for (int j = 0; j < productionLength[i]; j++) {
+                if (derivation[current + j] != productions[i][j]) {
+                    matching = false;
+                    break;
+                }
+            }
+
+            if (matching) {
+                checkAmbiguity(derivation, length, current + productionLength[i]);
+            }
+        }
+    }
+}
+
+bool isGrammarAmbiguous(int derivation[], int length) {
+    checkAmbiguity(derivation, length, 0);
+    return isAmbiguous;
+}
+
+int main() {
+    int derivation[] = {E, PLUS, E, STAR, E};
+    int length = sizeof(derivation) / sizeof(derivation[0]);
+
+    if (isGrammarAmbiguous(derivation, length)) {
+        printf("The grammar is ambiguous.\n");
+    } else {
+        printf("The grammar is not ambiguous.\n");
+    }
+
+    return 0;
+}
