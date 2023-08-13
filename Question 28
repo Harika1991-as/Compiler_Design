@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <string.h>
+
+#define NUM_NON_TERMINALS 1
+#define NUM_TERMINALS 2
+
+enum Symbol {
+    S,    // Non-terminal S
+    LP,   // (
+    RP,   // )
+    EPS   // ε
+};
+
+int parsingTable[NUM_NON_TERMINALS][NUM_TERMINALS];
+
+void initializeParsingTable() {
+    memset(parsingTable, -1, sizeof(parsingTable));
+    
+    // Production 1: S -> ( S ) S
+    parsingTable[S][LP] = 0;
+    
+    // Production 2: S -> ε
+    parsingTable[S][RP] = 1;
+    parsingTable[S][EPS] = 1;
+}
+
+int main() {
+    initializeParsingTable();
+    
+    // Example input: ( ) ( )
+    enum Symbol input[] = {LP, RP, LP, RP};
+    
+    // Parsing stack
+    enum Symbol stack[100];
+    int top = 0;
+    stack[top] = S; // Initialize stack with start symbol
+    
+    int i = 0;
+    while (i < sizeof(input) / sizeof(input[0])) {
+        enum Symbol currentSymbol = stack[top];
+        enum Symbol currentInput = input[i];
+        
+        if (currentSymbol == currentInput) {
+            top--;
+            i++;
+        } else if (currentSymbol < NUM_NON_TERMINALS) {
+            int production = parsingTable[currentSymbol][currentInput];
+            if (production == -1) {
+                printf("Error: No production found for input %d\n", currentInput);
+                break;
+            }
+            top--;
+            // Push the production onto the stack in reverse order
+            for (int j = production; j >= 0; j--) {
+                stack[++top] = j;
+            }
+        } else {
+            printf("Error: Invalid symbol on the stack\n");
+            break;
+        }
+    }
+    
+    if (i == sizeof(input) / sizeof(input[0]) && top == -1) {
+        printf("Input is successfully parsed.\n");
+    } else {
+        printf("Input could not be parsed.\n");
+    }
+    
+    return 0;
+}
