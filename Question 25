@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+typedef struct Triple {
+    char op;    
+    int arg1;  
+    int arg2;   
+    int result; 
+} Triple;
+
+Triple generateTriple(char op, int arg1, int arg2, int result) {
+    Triple triple;
+    triple.op = op;
+    triple.arg1 = arg1;
+    triple.arg2 = arg2;
+    triple.result = result;
+    return triple;
+}
+
+int main() {
+
+    Triple triple1 = generateTriple('*', 2, 3, 1); 
+    Triple triple2 = generateTriple('+', 1, 1, 2); 
+    Triple triple3 = generateTriple('-', 2, 4, 3); 
+
+    printf("Triples:\n");
+    printf("(%c, %d, %d, %d)\n", triple1.op, triple1.arg1, triple1.arg2, triple1.result);
+    printf("(%c, %d, %d, %d)\n", triple2.op, triple2.arg1, triple2.arg2, triple2.result);
+    printf("(%c, %d, %d, %d)\n", triple3.op, triple3.arg1, triple3.arg2, triple3.result);
+
+    return 0;
+}
